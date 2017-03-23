@@ -98,8 +98,8 @@ func (e *APIError) Error() string {
 	return e.Message
 }
 
-// UploadImage uploads image. if name keep "" the file name will be random
-func (c *Cloudinary) UploadImage(r io.Reader, name string) (*UploadResponse, error) {
+// Upload uploads image. if name keep "" the file name will be random
+func (c *Cloudinary) Upload(r io.Reader, name string) (*UploadResponse, error) {
 	return c.upload(r, name, ImageType)
 }
 
@@ -176,8 +176,8 @@ func (c *Cloudinary) upload(r io.Reader, name string, ut UploadType) (*UploadRes
 	return result, unmarshalResponse(res, result)
 }
 
-// DeleteImage deletes image from cloudinary
-func (c *Cloudinary) DeleteImage(name string) error {
+// Delete deletes image from cloudinary
+func (c *Cloudinary) Delete(name string) error {
 	return c.delete(name, ImageType)
 }
 

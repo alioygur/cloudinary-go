@@ -8,7 +8,7 @@ import (
 
 	"log"
 
-	"github.com/alioygur/cloudinary-go"
+	cloudinary "github.com/alioygur/cloudinary-go"
 )
 
 func TestMain(t *testing.M) {
@@ -20,7 +20,7 @@ func TestMain(t *testing.M) {
 	os.Exit(t.Run())
 }
 
-func TestCloudinary_UploadImage(t *testing.T) {
+func TestCloudinary_Upload(t *testing.T) {
 	var imagename = "testimage"
 	c, err := cloudinary.New(os.Getenv("CLOUDINARY_URL"))
 	if err != nil {
@@ -33,7 +33,7 @@ func TestCloudinary_UploadImage(t *testing.T) {
 	}
 	defer f.Close()
 
-	img, err := c.UploadImage(f, imagename)
+	img, err := c.Upload(f, imagename)
 	if err != nil {
 		t.Errorf("upload failed: %v", err)
 	}
@@ -43,7 +43,7 @@ func TestCloudinary_UploadImage(t *testing.T) {
 	}
 
 	// delete test image
-	if err := c.DeleteImage(imagename); err != nil {
+	if err := c.Delete(imagename); err != nil {
 		t.Errorf("image delete failed after upload: %v", err)
 	}
 }
@@ -57,7 +57,7 @@ func TestCloudinary_UploadVideo(t *testing.T) {
 
 	f, err := os.Open("./testdata/cloudinary.ogv")
 	if err != nil {
-		t.Fatalf("can't open test image: %v", err)
+		t.Fatalf("can't open test video: %v", err)
 	}
 	defer f.Close()
 
