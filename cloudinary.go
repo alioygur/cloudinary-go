@@ -103,6 +103,11 @@ func (c *Cloudinary) UploadImage(r io.Reader, name string) (*UploadResponse, err
 	return c.upload(r, name, ImageType)
 }
 
+// UploadVideo uploads video. if name keep "" the file name will be random
+func (c *Cloudinary) UploadVideo(r io.Reader, name string) (*UploadResponse, error) {
+	return c.upload(r, name, VideoType)
+}
+
 func (c *Cloudinary) upload(r io.Reader, name string, ut UploadType) (*UploadResponse, error) {
 	buf := new(bytes.Buffer)
 	w := multipart.NewWriter(buf)
@@ -174,6 +179,11 @@ func (c *Cloudinary) upload(r io.Reader, name string, ut UploadType) (*UploadRes
 // DeleteImage deletes image from cloudinary
 func (c *Cloudinary) DeleteImage(name string) error {
 	return c.delete(name, ImageType)
+}
+
+// DeleteVideo deletes video from cloudinary
+func (c *Cloudinary) DeleteVideo(name string) error {
+	return c.delete(name, VideoType)
 }
 
 // delete deletes resource to uploaded

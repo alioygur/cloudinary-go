@@ -20,7 +20,7 @@ func TestMain(t *testing.M) {
 	os.Exit(t.Run())
 }
 
-func TestCloudinary_Upload(t *testing.T) {
+func TestCloudinary_UploadImage(t *testing.T) {
 	var imagename = "testimage"
 	c, err := cloudinary.New(os.Getenv("CLOUDINARY_URL"))
 	if err != nil {
@@ -45,5 +45,35 @@ func TestCloudinary_Upload(t *testing.T) {
 	// delete test image
 	if err := c.DeleteImage(imagename); err != nil {
 		t.Errorf("image delete failed after upload: %v", err)
+	}
+}
+
+func TestCloudinary_UploadVideo(t *testing.T) {
+	var videoname = "testvideo"
+	c, err := cloudinary.New(os.Getenv("CLOUDINARY_URL"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	f, err := os.Open("./testdata/cloudinary.ogv")
+	if err != nil {
+		t.Fatalf("can't open test image: %v", err)
+	}
+	defer f.Close()
+
+	res, err := c.UploadVideo(f, videoname)
+	if err != nil {
+		t.Errorf("upload failed: %v", err)
+		return
+	}
+
+	if res.PublicID != videoname {
+		t.Errorf("want public_id %s, got %s", videoname, res.PublicID)
+		return
+	}
+
+	// delete test video
+	if err := c.DeleteVideo(videoname); err != nil {
+		t.Errorf("video delete failed after upload: %v", err)
 	}
 }
